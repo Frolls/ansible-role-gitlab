@@ -1,7 +1,7 @@
 ---
 # General config.
-gitlab_domain: gitlab
-gitlab_external_url: "https://{{ gitlab_domain }}/"
+gitlab_domain: "{{ domain }}"
+gitlab_external_url: "http://gitlab.{{ domain }}/"
 gitlab_git_data_dir: "/var/opt/gitlab/git-data"
 gitlab_edition: "gitlab-ce"
 gitlab_version: ''
@@ -9,12 +9,12 @@ gitlab_backup_path: "/var/opt/gitlab/backups"
 gitlab_config_template: "gitlab.rb.j2"
 
 # SSL Configuration.
-gitlab_redirect_http_to_https: true
+gitlab_redirect_http_to_https: no
 gitlab_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_domain }}.crt"
 gitlab_ssl_certificate_key: "/etc/gitlab/ssl/{{ gitlab_domain }}.key"
 
 # SSL Self-signed Certificate Configuration.
-gitlab_create_self_signed_cert: true
+gitlab_create_self_signed_cert: no
 gitlab_self_signed_cert_subj: "/C=US/ST=Missouri/L=Saint Louis/O=IT/CN={{ gitlab_domain }}"
 
 # LDAP Configuration.
@@ -55,6 +55,7 @@ gitlab_dependencies:
   - curl
   - openssl
   - tzdata
+  - gnupg2
 
 # Optional settings.
 gitlab_time_zone: "UTC"
@@ -80,4 +81,4 @@ gitlab_letsencrypt_contact_emails: ["gitlab@example.com"]
 gitlab_letsencrypt_auto_renew_hour: 1
 gitlab_letsencrypt_auto_renew_minute: 30
 gitlab_letsencrypt_auto_renew_day_of_month: "*/7"
-gitlab_letsencrypt_auto_renew: true
+gitlab_letsencrypt_auto_renew: false

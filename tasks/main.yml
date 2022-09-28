@@ -10,17 +10,17 @@
   stat: path=/usr/bin/gitlab-ctl
   register: gitlab_file
 
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
 # Install GitLab and its dependencies.
 - name: Install GitLab dependencies.
   package:
     name: "{{ gitlab_dependencies }}"
     state: present
-
-- name: Install GitLab dependencies (Debian).
-  apt:
-    name: gnupg2
-    state: present
-  when: ansible_os_family == 'Debian'
 
 - name: Download GitLab repository installation script.
   get_url:
@@ -43,8 +43,8 @@
   package:
     name: "{{ gitlab_package_name | default(gitlab_edition) }}"
     state: present
-  async: 300
-  poll: 5
+  #async: 300
+  #poll: 5
   when: not gitlab_file.stat.exists
 
 # Start and configure GitLab. Sometimes the first run fails, but after that,
